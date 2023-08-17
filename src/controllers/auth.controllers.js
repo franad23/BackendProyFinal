@@ -54,8 +54,11 @@ export const login = async (req, res) => {
             httpOnly: false,
             domain: '.netlify.app'
         });
-        // res.json("Se logueo correctamente")
-        res.json(userFound)
+        const response = {
+            token: token,
+            user: userFound
+        };
+        res.json(response)
     } catch (error) {
         console.log(error);
         res.status(500).json("error")
