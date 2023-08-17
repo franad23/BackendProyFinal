@@ -12,7 +12,7 @@ app.use(morgan('dev'));
 app.use(express.json())
 app.use(cookieParser());
 app.use(cors({
-  origin: 'https://echosurvey.netlify.app/', // Cambia esto por la URL de tu frontend
+  origin: 'https://echosurvey.netlify.app', // Cambia esto por la URL de tu frontend
   credentials: true // Habilita el uso de credenciales (cookies)
 }));
 
