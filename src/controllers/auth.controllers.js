@@ -51,7 +51,8 @@ export const login = async (req, res) => {
         res.cookie("token", token, {
             sameSite: 'none',
             secure: true,
-            httpOnly: false
+            httpOnly: false,
+            domain: '.netlify.app'
         });
         // res.json("Se logueo correctamente")
         res.json(userFound)
