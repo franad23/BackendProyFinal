@@ -4,8 +4,8 @@ Este repositorio contiene el backend del proyecto final de RollingCodeSchool San
 
 ## Instalación
 
-1. Clona este repositorio:
-2. Instala las dependencias:
+1. Clona este repositorio
+2. Instala las dependencias
 
 ## Tecnología
 
@@ -21,4 +21,4 @@ Este proyecto está desarrollado utilizando Node.js.
 - **jsonwebtoken:** Utilizada para generar y verificar tokens JWT.
 - **mongoose:** ODM (Object Data Modeling) para trabajar con MongoDB.
 - **morgan:** Middleware para el registro de solicitudes HTTP.
-- **resend:** Librería para enviar correos electrónicos de manera eficiente.
+- **sendgrid:** Librería para enviar correos electrónicos de manera eficiente.
