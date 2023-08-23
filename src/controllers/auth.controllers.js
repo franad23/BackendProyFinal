@@ -51,8 +51,7 @@ export const login = async (req, res) => {
         res.cookie("token", token, {
             sameSite: 'none',
             secure: true,
-            httpOnly: true,
-            domain: '.netlify.app'
+            httpOnly: false
         });
         const response = {
             token: token,
@@ -155,7 +154,7 @@ export const modifyPasswordUser = async (req, res) => {
         // Actualizar la contraseña del usuario
         user.password = newPasswordEncrypted;
         await user.save();
-
+        
         res.status(200).json({ message: "Contraseña modificada exitosamente" });
     } catch (error) {
         console.log(error);
