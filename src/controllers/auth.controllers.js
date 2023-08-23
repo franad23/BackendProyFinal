@@ -25,7 +25,7 @@ export const register = async (req, res) => {
         })
         const userSaved = await newUser.save();
         const token = await createAccessToken({id: userSaved._id});
-        const verificationLink = `https://echosurvey.vercel.app/infoverifyemail/${userSaved._id}`;
+        const verificationLink = `https://echosurvey.vercel.app/toverifyemail/${userSaved._id}`;
         const emailContent =`Verifica tu Email haciendo click <a href="${verificationLink}">aquí</a>`;
         sendEmail(email, `Verificar Email Echosurvey`, emailContent);
         // res.cookie("token", token, {
