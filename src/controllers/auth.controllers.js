@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import createAccessToken from "../libs/createToken.js";
 import jwt  from "jsonwebtoken";
 import dotenv from "dotenv"
+import sgMail from "@sendgrid/mail";
 
 //Helpers
 import { sendEmail } from "../helpers/resendEmail.js";
@@ -10,6 +11,7 @@ import { sendEmail } from "../helpers/resendEmail.js";
 dotenv.config();
 
 export const register = async (req, res) => {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY)
     const {userfirstname, userlastname, email, password, isVerify, userPlan} = req.body;
     try {
         const userFound = await User.findOne({email})
@@ -25,20 +27,28 @@ export const register = async (req, res) => {
         })
         const userSaved = await newUser.save();
         const token = await createAccessToken({id: userSaved._id});
-        const verificationLink = `https://echosurvey.vercel.app/toverifyemail/${userSaved._id}`;
-        const emailContent =`Verifica tu Email haciendo click <a href="${verificationLink}">aquí</a>`;
-        sendEmail(email, `Verificar Email Echosurvey`, emailContent);
-        // res.cookie("token", token, {
-        //     sameSite: 'none',
-        //     secure: true,
-        //     httpOnly: false
-        // });
+        const verificationLink = `http://localhost:5173/toverifyemail/${userSaved._id}`;
+        const msg = {
+            to: email, // Change to your recipient
+            from: 'dfrancoandres@gmail.com', // Change to your verified sender
+            subject: 'Bienvenido! estas a un paso. Echosurvey',
+            html: `Verifica tu Email haciendo click <a href="${verificationLink}">aqui</a>`,
+          }
+          sgMail
+            .send(msg)
+            .then(() => {
+              console.log('Email sent')
+            })
+            .catch((error) => {
+              console.error(error)
+            })
         res.json(userSaved)
     } catch (error) {
         console.log(error);
         res.status(500).json("error")
     }
 }
+
 export const login = async (req, res) => {
     const {email, password} = req.body;
     try {
@@ -122,13 +132,26 @@ export const verifyUser = async (req, res) => {
 };
 
 export const sendEmailToRecovery = async (req, res) => {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY)
     const {email} = req.body;
     try {
         const userFound = await User.findOne({email});
         console.log(userFound);
-        const verificationLink = `https://echosurvey.vercel.app/recoverypasswordPage/${userFound._id}`;
-        const emailContent =`Recupera tu contraseña hacienco click <a href="${verificationLink}">aquí</a>`;
-        sendEmail(email, `Recuperar contraseña Echosurvey`, emailContent);
+        const verificationLink = `http://localhost:5173/recoverypasswordPage/${userFound._id}`;
+        const msg = {
+            to: email, // Change to your recipient
+            from: 'dfrancoandres@gmail.com', // Change to your verified sender
+            subject: 'Recupero de contraseña. Echosurvey',
+            html: `Recupera tu contraseña hacienco click <a href="${verificationLink}">aquí</a>`,
+          }
+          sgMail
+            .send(msg)
+            .then(() => {
+              console.log('Email sent')
+            })
+            .catch((error) => {
+              console.error(error)
+            })
         res.status(200).json({ message: "Mail Enviado" });
     } catch (error) {
         console.log(error);
@@ -137,6 +160,7 @@ export const sendEmailToRecovery = async (req, res) => {
 }
 
 export const modifyPasswordUser = async (req, res) => {
+
     const idUser = req.params.id;
     const { password } = req.body;
     
