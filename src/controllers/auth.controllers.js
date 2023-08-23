@@ -25,7 +25,7 @@ export const register = async (req, res) => {
         })
         const userSaved = await newUser.save();
         const token = await createAccessToken({id: userSaved._id});
-        const verificationLink = `http://localhost:5173/toverifyemail/${userSaved._id}`;
+        const verificationLink = `https://echosurvey.vercel.app/infoverifyemail/${userSaved._id}`;
         const emailContent =`Verifica tu Email haciendo click <a href="${verificationLink}">aquí</a>`;
         sendEmail(email, `Verificar Email Echosurvey`, emailContent);
         // res.cookie("token", token, {
@@ -126,7 +126,7 @@ export const sendEmailToRecovery = async (req, res) => {
     try {
         const userFound = await User.findOne({email});
         console.log(userFound);
-        const verificationLink = `http://localhost:5173/recoverypasswordPage/${userFound._id}`;
+        const verificationLink = `https://echosurvey.vercel.app/recoverypasswordPage/${userFound._id}`;
         const emailContent =`Recupera tu contraseña hacienco click <a href="${verificationLink}">aquí</a>`;
         sendEmail(email, `Recuperar contraseña Echosurvey`, emailContent);
         res.status(200).json({ message: "Mail Enviado" });
