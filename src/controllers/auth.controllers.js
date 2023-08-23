@@ -27,7 +27,7 @@ export const register = async (req, res) => {
         })
         const userSaved = await newUser.save();
         const token = await createAccessToken({id: userSaved._id});
-        const verificationLink = `http://localhost:5173/toverifyemail/${userSaved._id}`;
+        const verificationLink = `https://echosurvey.vercel.app/toverifyemail/${userSaved._id}`;
         const msg = {
             to: email, // Change to your recipient
             from: 'dfrancoandres@gmail.com', // Change to your verified sender
@@ -137,7 +137,7 @@ export const sendEmailToRecovery = async (req, res) => {
     try {
         const userFound = await User.findOne({email});
         console.log(userFound);
-        const verificationLink = `http://localhost:5173/recoverypasswordPage/${userFound._id}`;
+        const verificationLink = `https://echosurvey.vercel.app/recoverypasswordPage/${userFound._id}`;
         const msg = {
             to: email, // Change to your recipient
             from: 'dfrancoandres@gmail.com', // Change to your verified sender
